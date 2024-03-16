@@ -45,7 +45,8 @@ def LCN(image_tensor, gaussian, mid):
                    (1, 2, 0)))
         plt.title('LCN')
         plt.show()
-    return new_image.cuda()
+    device = torch.device('cuda' if torch.cuda.is_available() else 'mps')
+    return new_image.to(device)
 
 
 class Net(nn.Module):

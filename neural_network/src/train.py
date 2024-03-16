@@ -15,7 +15,7 @@ matplotlib.style.use('ggplot')
 # learning parameters
 epochs = 20
 lr = 0.001
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+device = torch.device('cuda' if torch.cuda.is_available() else 'mps')
 
 # training function
 def fit(model, dataloader, optimizer, criterion, train_data):

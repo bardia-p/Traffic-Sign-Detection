@@ -9,7 +9,7 @@ import os
 
 from model import Net
 
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+device = torch.device('cuda' if torch.cuda.is_available() else 'mps')
 model = Net().to(device)
 # load the model checkpoint
 checkpoint = torch.load('../outputs/model.pth')

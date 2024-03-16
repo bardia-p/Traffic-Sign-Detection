@@ -1,0 +1,8 @@
+# Libraries identified for the project:
+albumentations # Check for compatible version
+matplotlib # Check for compatible version
+numpy # Check for compatible version
+pandas # Check for compatible version
+torch # Check for compatible version
+opencv-python
+torchvision
