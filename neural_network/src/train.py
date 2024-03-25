@@ -1,3 +1,4 @@
+import version
 from model import Net
 from tqdm import tqdm
 from dataset import train_data, val_data
@@ -15,7 +16,7 @@ matplotlib.style.use('ggplot')
 # learning parameters
 epochs = 20
 lr = 0.001
-device = torch.device('cuda' if torch.cuda.is_available() else 'mps')
+device = torch.device(version.torch_dev)
 
 # training function
 def fit(model, dataloader, optimizer, criterion, train_data):

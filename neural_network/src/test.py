@@ -7,9 +7,10 @@ import pandas as pd
 import torch
 import os
 
+import version
 from model import Net
 
-device = torch.device('cuda' if torch.cuda.is_available() else 'mps')
+device = torch.device(version.torch_dev)
 model = Net().to(device)
 # load the model checkpoint
 checkpoint = torch.load('../outputs/model.pth')

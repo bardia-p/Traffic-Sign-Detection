@@ -2,17 +2,18 @@ import albumentations
 import numpy as np
 import torch
 
+import version
 from neural_network.src.model import Net
 import os.path
 
 
 class Recog:
-    device = torch.device('mps')
+    device = torch.device(version.torch_dev)
     model = Net().to(device)
     # load the model checkpoint
     my_path = os.path.abspath(os.path.dirname(__file__))
 
-    device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
+    device = torch.device(version.torch_dev)
     checkpoint = torch.load(os.path.join(my_path, '../outputs/model.pth'), map_location=device)
     # load model weights state_dict
     model.load_state_dict(checkpoint['model_state_dict'])
