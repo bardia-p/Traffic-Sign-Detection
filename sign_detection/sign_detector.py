@@ -10,28 +10,28 @@ class SignDetector:
     ret_tri, thresh_tri = cv2.threshold(triangle, 127, 255, 0)
     contours_tri, hierarchy_tri = cv2.findContours(thresh_tri, 2, 1)
     tri_shape = contours_tri[1]
-    tri_thresh = 0.25
+    tri_thresh = 0.1
 
     # Get Circle Stuff
     circle = cv2.imread(os.path.join(my_path,'./shapes/circle.png'), cv2.IMREAD_GRAYSCALE)
     ret_cir, thresh_cir = cv2.threshold(circle, 127, 255, 0)
     contours_cir, hierarchy_cir = cv2.findContours(thresh_cir, 2, 1)
     cir_shape = contours_cir[1]
-    cir_thresh = 0.25
+    cir_thresh = 0.1
 
     # Get Square Stuff
     square = cv2.imread(os.path.join(my_path,'./shapes/square.png'), cv2.IMREAD_GRAYSCALE)
     ret_sqr, thresh_sqr = cv2.threshold(square, 127, 255, 0)
     contours_sqr, hierarchy_sqr = cv2.findContours(thresh_sqr, 2, 1)
     sqr_shape = contours_sqr[1]
-    sqr_thresh = 0.25
+    sqr_thresh = 0.1
 
     # Get Hexagon Stuff
     hexa = cv2.imread(os.path.join(my_path,'./shapes/hexagon.png'), cv2.IMREAD_GRAYSCALE)
     ret_hex, thresh_hex = cv2.threshold(hexa, 127, 255, 0)
     contours_hex, hierarchy_hex = cv2.findContours(thresh_hex, 2, 1)
     hex_shape = contours_hex[1]
-    hex_thresh = 0.25
+    hex_thresh = 0.1
 
 
     def find_signs(self, img):
@@ -51,8 +51,16 @@ class SignDetector:
                     match_circle = cv2.matchShapes(c, self.cir_shape, 1, 0.0)
                     match_square = cv2.matchShapes(c, self.sqr_shape, 1, 0.0)
                     match_hexagon = cv2.matchShapes(c, self.hex_shape, 1, 0.0)
-                    if (match_triangle < self.tri_thresh and match_circle < self.cir_thresh and match_square < self.sqr_thresh
-                            and match_hexagon < self.hex_thresh):
+                    matches = []
+                    if match_triangle < self.tri_thresh:
+                        matches += ['triangle: ' + str(match_triangle)]
+                    if match_square < self.sqr_thresh:
+                        matches += ['square' + str(match_square)]
+                    if match_circle <= self.cir_thresh:
+                        matches += ['circle' + str(match_circle)]
+                    if match_hexagon <= self.hex_thresh:
+                        matches += ['hexagon' + str(match_hexagon)]
+                    if len(matches) > 0:
                         new_contours += [c]
                         cv2.rectangle(im2, (x, y), (x + w, y + h), (0, 255, 0), 2)
                         cv2.drawContours(im2, [c], -1, (0, 127, 0), 3)
@@ -67,10 +75,10 @@ class SignDetector:
                                 found_same = True
                         if not found_same:
                             rectangles += [(x, y, w, h)]
+                            print(str((x, y, w, h)) + ' from ' + str(matches))
 
         returned_images = []
         for rec in rectangles:
-            print(rec)
 
             x_bot = int(max(0, rec[1] - rec[3] / 20))
             x_far = int(min(img.shape[0], rec[1] + (1.05 * rec[3])))
