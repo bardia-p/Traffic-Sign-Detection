@@ -10,6 +10,8 @@ from torch.autograd import Variable
 from torchvision import datasets, transforms
 from torch.autograd import Variable
 
+import version
+
 nclasses = 43 # GTSRB has 43 classes
 DEBUG = False
 
@@ -45,7 +47,8 @@ def LCN(image_tensor, gaussian, mid):
                    (1, 2, 0)))
         plt.title('LCN')
         plt.show()
-    return new_image.cuda()
+    device = torch.device(version.torch_dev)
+    return new_image.to(device)
 
 
 class Net(nn.Module):

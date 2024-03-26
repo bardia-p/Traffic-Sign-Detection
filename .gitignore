@@ -2,3 +2,5 @@
 /venv
 /.idea
 /neural_network/input/german_traffic_sign
+__pycache__
+processed_signs_*.png

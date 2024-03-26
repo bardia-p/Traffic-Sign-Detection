@@ -2,17 +2,19 @@ import albumentations
 import numpy as np
 import torch
 
+import version
 from neural_network.src.model import Net
 import os.path
 
 
 class Recog:
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    device = torch.device(version.torch_dev)
     model = Net().to(device)
     # load the model checkpoint
     my_path = os.path.abspath(os.path.dirname(__file__))
 
-    checkpoint = torch.load(os.path.join(my_path, '../outputs/model.pth'))
+    device = torch.device(version.torch_dev)
+    checkpoint = torch.load(os.path.join(my_path, '../outputs/model.pth'), map_location=device)
     # load model weights state_dict
     model.load_state_dict(checkpoint['model_state_dict'])
 
@@ -38,7 +40,7 @@ class Recog:
             image = np.transpose(image, (2, 0, 1))
             image = torch.tensor(image, dtype=torch.float).to(self.device)
             image = image.unsqueeze(0)
-            outputs = self.model(image)
+            outputs = self.model(image.to(self.device))
             values, indexes = torch.topk(outputs.data, 3)
 
         return list(zip(values.flatten().tolist(), indexes.flatten().tolist()))
