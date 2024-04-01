@@ -10,23 +10,30 @@ image = cv2.imread("test.jpg")
 
 signs = SignDetector().find_signs(image.copy())
 
-clone = image.copy()
+img_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+results = dict()
 
 for sign in signs:
-    matches = TemplateMatcher().locate_sign(sign[0])
-    
-    for m in matches:
-        top_recogs = Recog().recog_image(m[0])
+    top_recogs = Recog().recog_image(sign[0])
 
-        print(top_recogs)
-        most_likely = top_recogs[0][1]
+    matches = TemplateMatcher().locate_sign(img_gray, top_recogs)
 
-        #    detections = tm.locate_sign(image, most_likely)
+    if len(matches) > 0:
+        tm_res = matches[0][1]
+    else:
+        tm_res = -1
 
-        #   print(most_likely, len(detections))
-        #  if len(detections) > 0:
-    
-        cv2.rectangle(clone,(sign[1][0], sign[1][1]), (sign[1][0] + sign[1][2], sign[1][1] + sign[1][3]), (0, 255, 0), 2)
-        cv2.putText(clone, str(most_likely), (sign[1][0], sign[1][1]),cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
+    print(top_recogs)
+    print(matches)
 
-cv2.imwrite("result.png", clone)
+    if tm_res != -1:
+        if tm_res not in results:
+            results[tm_res] = sign
+
+for r in results.keys():
+    sign = results[r]
+    cv2.rectangle(image,(sign[1][0], sign[1][1]), (sign[1][0] + sign[1][2], sign[1][1] + sign[1][3]), (0, 255, 0), 2)
+    cv2.putText(image, str(r), (sign[1][0], sign[1][1]),cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
+
+cv2.imwrite("result.png", image)
