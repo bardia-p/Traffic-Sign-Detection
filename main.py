@@ -11,6 +11,14 @@ from template_match.template_matcher import TemplateMatcher
 from sign_translator.sign_translator import SignTranslator
 
 def process_image(input_file, output_file=""):
+    '''
+    Processes the input image to find the sign.
+
+    @param input_file: the name of the input image.
+    @param output_file: the name of the output image.
+
+    @return the file name for the output image.
+    '''
     random.seed(datetime.now().timestamp())
 
     image = cv2.imread(input_file)
