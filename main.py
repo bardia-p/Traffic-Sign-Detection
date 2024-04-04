@@ -1,13 +1,11 @@
 import cv2
 import random
 from datetime import datetime
+from scipy.stats import mode
 
 from sign_detection.sign_detector import SignDetector
-
 from neural_network.src.recognize_image import Recog
-
 from template_match.template_matcher import TemplateMatcher
-
 from sign_translator.sign_translator import SignTranslator
 
 INPUT_DIR = "inputs/"
@@ -28,28 +26,33 @@ def process_image(input_file, output_file=""):
 
     signs = SignDetector().find_signs(image.copy())
 
-    img_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-
     translator = SignTranslator()
 
     results = dict()
 
     for sign in signs:
+        test_results = []
+        gray_sign = cv2.cvtColor(sign[0], cv2.COLOR_BGR2GRAY)
+
         top_recogs = Recog().recog_image(sign[0])
+        if len(top_recogs) > 0:
+            test_results.append(top_recogs[0][1])
+    
+        tms = TemplateMatcher().template_match(gray_sign, top_recogs)
 
-        matches = TemplateMatcher().locate_sign(img_gray, top_recogs)
+        if len(tms) > 0:
+            test_results.append(tms[0][1])
 
-        if len(matches) > 0:
-            tm_res = matches[0][1]
-        else:
-            tm_res = -1
+        sifts = TemplateMatcher().sift_match(gray_sign, top_recogs)
 
-        print(top_recogs)
-        print(matches)
+        if len(sifts) > 0:
+            test_results.append(sifts[0][1])
 
-        if tm_res != -1:
-            if tm_res not in results:
-                results[tm_res] = sign
+        print(test_results)
+        top_choice = mode(test_results)
+
+        if top_choice.count != 0:
+            results[top_choice.mode] = sign
 
     for r in results.keys():
         sign = results[r]
