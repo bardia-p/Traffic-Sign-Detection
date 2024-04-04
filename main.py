@@ -10,6 +10,9 @@ from template_match.template_matcher import TemplateMatcher
 
 from sign_translator.sign_translator import SignTranslator
 
+INPUT_DIR = "inputs/"
+OUTPUT_DIR = "results/"
+
 def process_image(input_file, output_file=""):
     '''
     Processes the input image to find the sign.
@@ -54,8 +57,12 @@ def process_image(input_file, output_file=""):
         cv2.putText(image, translator.get_sign(r), (sign[1][0], sign[1][1]),cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
 
     if output_file == "":
-        output_file = "processed_signs_" + str(random.randint(1,100)) + ".png"
+        output_file = "processed_signs_" + str(random.randint(1,1000))
 
+    output_file = "results/" + output_file + ".png"
     cv2.imwrite(output_file, image)
 
     return output_file
+
+if __name__ == '__main__':
+    process_image(INPUT_DIR + "test.jpg", "result")
