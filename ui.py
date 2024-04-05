@@ -26,7 +26,7 @@ while True:
     elif event == 'Process':
         image_path = values['-FILE-']
         window['-STATUS-'].update('Processing...')
-        processed_image_path = process_image(image_path)
+        processed_image_path, results = process_image(image_path)
         while not os.path.exists(processed_image_path):
             time.sleep(0.1)  # Dynamic waiting for the processed image to be available
         window['-STATUS-'].update('Detection Complete')
