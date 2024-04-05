@@ -72,7 +72,7 @@ def process_image(input_file, output_file=""):
 
     output_dir =  OUTPUT_DIR + output_file
     if not os.path.exists(output_dir):
-        os.mkdir(output_dir)
+        os.makedirs(output_dir, exist_ok=True)
 
     output_image = output_dir + "/" + output_file + ".png"
     cv2.imwrite(output_image, image)
