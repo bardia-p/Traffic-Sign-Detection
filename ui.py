@@ -5,22 +5,7 @@ from neural_network.src.recognize_image import Recog
 import time
 import os
 from PIL import Image, ImageTk
-
-def process_image(image_path):
-    image = cv2.imread(image_path)
-    signs = SignDetector().find_signs(image.copy())
-    clone = image.copy()
-
-    for sign in signs:
-        top_recogs = Recog().recog_image(sign[0])
-        most_likely = top_recogs[0][1]
-        cv2.rectangle(clone, (sign[1][0], sign[1][1]), (sign[1][0] + sign[1][2], sign[1][1] + sign[1][3]), (0, 255, 0), 2)
-        cv2.putText(clone, str(most_likely), (sign[1][0], sign[1][1]),
-                    cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
-
-    output_filename = f"processed_signs_{int(time.time())}.png"
-    cv2.imwrite(output_filename, clone)
-    return os.path.abspath(output_filename)
+from main import process_image
 
 layout = [
     [sg.Text('Image File'), sg.Input(key='-FILE-'), sg.FileBrowse(), sg.Button('Process')],
@@ -41,7 +26,7 @@ while True:
     elif event == 'Process':
         image_path = values['-FILE-']
         window['-STATUS-'].update('Processing...')
-        processed_image_path = process_image(image_path)
+        processed_image_path, results = process_image(image_path)
         while not os.path.exists(processed_image_path):
             time.sleep(0.1)  # Dynamic waiting for the processed image to be available
         window['-STATUS-'].update('Detection Complete')
