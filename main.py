@@ -82,7 +82,7 @@ def process_image(input_file, output_file=""):
         json.dump(results, f, ensure_ascii=False, indent=4)
 
     print(results)
-    return output_file, results
+    return output_image, results
 
 if __name__ == '__main__':
     process_image(INPUT_DIR + "test.jpg", "result")
