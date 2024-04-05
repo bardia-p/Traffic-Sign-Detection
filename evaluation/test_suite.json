@@ -1,0 +1,35 @@
+{
+  "images": [
+    {
+      "id": "0_88B0lZXmCdXanLQiSLcg",
+      "signs": [
+        {
+          "minx": 941,
+          "miny": 766,
+          "maxx": 1129,
+          "maxy": 938,
+          "sign_name":11
+        }
+      ]
+    },
+    {
+      "id": "0cySdWk426BTTmTrhfvQOg",
+      "signs": [
+        {
+          "minx": 1724,
+          "miny": 1127,
+          "maxx": 1851,
+          "maxy": 1237,
+          "sign_name": 18
+        },
+        {
+          "minx": 1732,
+          "miny": 1274,
+          "maxx": 1848,
+          "maxy": 1390,
+          "sign_name": 4
+        }
+      ]
+    }
+  ]
+}

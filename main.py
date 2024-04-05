@@ -13,7 +13,8 @@ from sign_translator.sign_translator import SignTranslator
 INPUT_DIR = "inputs/"
 OUTPUT_DIR = "results/"
 
-def process_image(input_file, output_file=""):
+
+def process_image(input_file, output_file="", download=True):
     '''
     Processes the input image to find the sign.
 
@@ -39,7 +40,7 @@ def process_image(input_file, output_file=""):
         top_recogs = Recog().recog_image(sign[0])
         if len(top_recogs) > 0:
             test_results.append(top_recogs[0][1])
-    
+
         tms = TemplateMatcher().template_match(gray_sign, top_recogs)
 
         if len(tms) > 0:
@@ -50,7 +51,7 @@ def process_image(input_file, output_file=""):
         if len(sifts) > 0:
             test_results.append(sifts[0][1])
 
-        #test_resultsprint()
+        # test_resultsprint()
         top_choice = mode(test_results)
 
         if top_choice.count != 0:
@@ -64,25 +65,29 @@ def process_image(input_file, output_file=""):
 
     for r in results.keys():
         sign = results[r]
-        cv2.rectangle(image,(sign["x"], sign["y"]), (sign["x"] + sign["w"], sign["y"] + sign["h"]), (0, 255, 0), 2)
-        cv2.putText(image, r, (sign["x"], sign["y"]),cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
+        cv2.rectangle(image, (sign["x"], sign["y"]), (sign["x"] + sign["w"], sign["y"] + sign["h"]), (0, 255, 0), 2)
+        cv2.putText(image, r, (sign["x"], sign["y"]), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
 
-    if output_file == "":
-        output_file = "processed_signs_" + str(random.randint(1,1000))
+    if download:
+        if output_file == "":
+            output_file = "processed_signs_" + str(random.randint(1, 1000))
 
-    output_dir =  OUTPUT_DIR + output_file
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir, exist_ok=True)
+        output_dir = OUTPUT_DIR + output_file
+        if not os.path.exists(output_dir):
+            os.makedirs(output_dir, exist_ok=True)
 
-    output_image = output_dir + "/" + output_file + ".png"
-    cv2.imwrite(output_image, image)
+        output_image = output_dir + "/" + output_file + ".png"
+        cv2.imwrite(output_image, image)
 
-    output_file = output_dir + "/" + output_file + ".json"
-    with open(output_file, 'w', encoding='utf-8') as f:
-        json.dump(results, f, ensure_ascii=False, indent=4)
+        output_file = output_dir + "/" + output_file + ".json"
+        with open(output_file, 'w', encoding='utf-8') as f:
+            json.dump(results, f, ensure_ascii=False, indent=4)
 
-    print(results)
+        print(results)
+    else:
+        output_image = ""
     return output_image, results
+
 
 if __name__ == '__main__':
     process_image(INPUT_DIR + "test.jpg", "result")

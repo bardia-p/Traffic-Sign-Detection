@@ -1,6 +1,8 @@
 import csv
+import os
 
-SIGNS_FILE = "sign_translator/signs.csv"
+my_path = os.path.abspath(os.path.dirname(__file__))
+SIGNS_FILE = os.path.join(my_path, 'signs.csv')
 
 class SignTranslator:
     def __init__(self):
