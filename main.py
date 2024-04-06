@@ -36,6 +36,7 @@ def process_image(input_file, output_file="", download=True, methods=["nn", "tm"
     for sign in signs:
         top_choice, _ = match(sign[0], methods)
 
+
         if top_choice.count != 0:
             sign_details = dict()
             sign_details["x"] = sign[1][0]
