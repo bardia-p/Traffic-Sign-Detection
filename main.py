@@ -47,7 +47,6 @@ def process_image(input_file, output_file="", download=True, methods = ["nn", "t
         if "sift" in methods:
             test_results.append(sift_match(sign[0], guesses))
 
-        # test_resultsprint()
         top_choice = mode(test_results)
 
         if top_choice.count != 0:
