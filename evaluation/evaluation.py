@@ -23,6 +23,11 @@ def get_jaccard_score(rec1, rec2):
     rec2[1] = rec2[1] - min_y
     rec2[3] = rec2[3] - min_y
 
+    if rec1[0] > rec2[2] or rec2[0] > rec1[2]:
+        return 0.0
+    if rec1[1] > rec2[3] or rec2[1] > rec1[3]:
+        return 0.0
+
     shape = (max(rec1[3], rec2[3]) + 1, max(rec1[2], rec2[2]) + 1)
     img = np.zeros(shape, np.uint8)  # use your image shape here or directly below
     img1 = cv2.rectangle(np.zeros(img.shape), (rec1[0], rec1[1]), (rec1[2], rec1[3]), (1, 1, 1), -1)
