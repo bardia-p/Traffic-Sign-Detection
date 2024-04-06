@@ -24,6 +24,7 @@ class TemplateMatcher:
 
         @returns the most likely template.
         '''
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
         aug = albumentations.Compose([
             albumentations.Resize(img.shape[0], img.shape[1], always_apply=True),
@@ -57,6 +58,8 @@ class TemplateMatcher:
 
         @returns the most likely template.
         '''
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
         # Initiate SIFT detector
         sift = cv2.SIFT_create()
 

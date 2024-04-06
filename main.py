@@ -37,17 +37,15 @@ def process_image(input_file, output_file="", download=True, methods = ["nn", "t
         test_results = []
         guesses = []
 
-        gray_sign = cv2.cvtColor(sign[0], cv2.COLOR_BGR2GRAY)
-
         if "nn" in methods:
             res, guesses = nn_match(sign[0])
             test_results.append(res)
 
         if "tm" in methods:
-            test_results.append(template_match(gray_sign, guesses))
+            test_results.append(template_match(sign[0], guesses))
 
         if "sift" in methods:
-            test_results.append(sift_match(gray_sign, guesses))
+            test_results.append(sift_match(sign[0], guesses))
 
         # test_resultsprint()
         top_choice = mode(test_results)
