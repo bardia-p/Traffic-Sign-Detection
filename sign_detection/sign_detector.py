@@ -65,14 +65,12 @@ class SignDetector:
                         cv2.rectangle(im2, (x, y), (x + w, y + h), (0, 255, 0), 2)
                         cv2.drawContours(im2, [c], -1, (0, 127, 0), 3)
                         found_same = False
+                        cur_rect = [x, y, x + w, y + h]
                         for rec in rectangles:
-                            same = True
-                            same = same and abs(x - rec[0]) < w / 15
-                            same = same and abs(y - rec[1]) < h / 15
-                            same = same and abs(w - rec[2]) < w / 15
-                            same = same and abs(h - rec[3]) < h / 15
-                            if same:
+                            if self.check_collide(cur_rect, [rec[0], rec[1], rec[0] + rec[2], rec[1] + rec[3]]):
                                 found_same = True
+                                break
+
                         if not found_same:
                             rectangles += [(x, y, w, h)]
                             print(str((x, y, w, h)) + ' from ' + str(matches))
@@ -87,3 +85,17 @@ class SignDetector:
             returned_images += [(img[x_bot:x_far, y_bot:y_far], rec)]
 
         return returned_images
+    
+    def check_collide(self, R1, R2):
+      '''
+      Checks to see if two rectangles collide or not.
+
+      @param R1 rectangle 1
+      @param R2 rectangle 2
+
+      @returns true if they collide 
+      '''
+      if (R1[0]>=R2[2]) or (R1[2]<=R2[0]) or (R1[3]<=R2[1]) or (R1[1]>=R2[3]):
+         return False
+      else:
+         return True
