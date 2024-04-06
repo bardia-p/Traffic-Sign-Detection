@@ -73,7 +73,7 @@ class SignDetector:
 
                         if not found_same:
                             rectangles += [(x, y, w, h)]
-                            print(str((x, y, w, h)) + ' from ' + str(matches))
+                            # print(str((x, y, w, h)) + ' from ' + str(matches))
 
         returned_images = []
         for rec in rectangles:
