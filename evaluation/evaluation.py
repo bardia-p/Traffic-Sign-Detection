@@ -3,8 +3,12 @@ import os
 import numpy as np
 import cv2
 from sklearn.metrics import jaccard_score
+
+import sys
+sys.path.append("..")
+
 from main import process_image
-from sign_translator.sign_translator import SignTranslator
+from sign_translation.sign_translator import SignTranslator
 
 LOGGER_ENABLED = True
 

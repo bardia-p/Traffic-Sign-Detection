@@ -8,7 +8,7 @@ import json
 from sign_detection.sign_detector import SignDetector
 from neural_network.src.recognize_image import Recog
 from template_match.template_matcher import TemplateMatcher
-from sign_translator.sign_translator import SignTranslator
+from sign_translation.sign_translator import SignTranslator
 
 INPUT_DIR = "inputs/"
 OUTPUT_DIR = "results/"
