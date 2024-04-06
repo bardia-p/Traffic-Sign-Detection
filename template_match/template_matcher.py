@@ -42,9 +42,10 @@ class TemplateMatcher:
             resized_template = aug(image=np.array(template))['image']
 
             res = cv2.matchTemplate(img, resized_template, cv2.TM_CCOEFF_NORMED)
-            threshold = 0.8  # Adjust this threshold according to your needs
-            loc = np.where(res >= threshold)
-            result.append((len(loc), g))
+
+            _, max_val, _, _ = cv2.minMaxLoc(res)
+
+            result.append((max_val, g))
 
         return sorted(result, key=lambda x: x[0], reverse=True)
 

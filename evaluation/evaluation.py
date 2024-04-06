@@ -2,12 +2,16 @@ import json
 import os
 import numpy as np
 import cv2
+import torch
 from sklearn.metrics import jaccard_score
-
+import warnings
 import sys
+
+from sign_detection.sign_detector import SignDetector
+
 sys.path.append("..")
 
-from main import process_image
+from main import process_image, match, template_match, sift_match
 from sign_translation.sign_translator import SignTranslator
 
 LOGGER_ENABLED = True
@@ -41,7 +45,7 @@ def get_jaccard_score(rec1, rec2):
 
 def process(data, jaccard_threshold):
     im_id = data['id']
-    print('Current image: ' + str(im_id))
+    # print('Current image: ' + str(im_id))
 
     # Remap true signs to a common datatype
     real_signs = []
@@ -102,19 +106,12 @@ def print_stats(true_matches, false_positives, false_negatives, successes, failu
     accuracy = (successes / (successes + failures)) \
         if (successes + failures > 0) else 0.0
 
-    print("True Positives:" + str(true_matches))
-    print("False Positives:" + str(false_positives))
-    print("False Negatives:" + str(false_negatives))
-
-    print("Correct Recognition:" + str(successes))
-    print("Incorrect Recognition:" + str(failures))
-
     print("Detection Precision: " + str(precision))
     print("Detection Recall: " + str(recall))
     print("Recognition Accuracy: " + str(accuracy))
 
 
-def run_eval(jaccard_threshold=0.8):
+def full_eval(jaccard_threshold=0.8):
     my_path = os.path.abspath(os.path.dirname(__file__))
     f = open(os.path.join(my_path, 'test_suite.json'))
 
@@ -138,14 +135,180 @@ def run_eval(jaccard_threshold=0.8):
         total_failures += found_failures
 
         if counter % 10 == 0:
-            print_stats(total_true_matches, total_false_positive, total_false_negative, total_successes, total_failures)
+            print("Evaluated " + str(counter) + ' images')
 
         counter += 1
 
     return total_true_matches, total_false_positive, total_false_negative, total_successes, total_failures
 
 
-if __name__ == '__main__':
-    true_match_final, false_positive_final, false_negative_final, successes_final, failures_final = run_eval()
+def eval_jaccard(scores):
+
+    true_positive_count = []
+    false_positive_count = []
+    false_negative_count = []
+    for _ in scores:
+        true_positive_count += [0]
+        false_positive_count += [0]
+        false_negative_count += [0]
+
+    my_path = os.path.abspath(os.path.dirname(__file__))
+    f = open(os.path.join(my_path, 'test_suite.json'))
+
+    data = json.load(f)
+
+    counter = 1
+    for image_data in data['images']:
+
+        im_id = image_data['id']
+        # print('Current image: ' + str(im_id))
+
+        # Remap true sign locations to a common datatype
+        real_signs = []
+        for sign in image_data['signs']:
+            real_signs += [sign]
+
+        # Retrieve the image and run it through the process
+        my_path = os.path.abspath(os.path.dirname(__file__))
+        im_path = os.path.join(my_path, './input/' + str(im_id) + '.jpg')
+
+        image = cv2.imread(im_path)
+
+        detected_signs = SignDetector().find_signs(image.copy())
+
+        # Remap detected signs to a common datatype
+        found_signs = []
+        for sign in detected_signs:
+            new_dict = dict()
+            new_dict['x'] = sign[1][0]
+            new_dict['y'] = sign[1][1]
+            new_dict['w'] = sign[1][2]
+            new_dict['h'] = sign[1][3]
+            found_signs += [new_dict]
+
+        successful_pairs = []
+        for _ in scores:
+            successful_pairs += [[]]
+
+        for i in range(len(real_signs)):
+            for j in range(len(found_signs)):
+                rec1 = [real_signs[i]['minx'], real_signs[i]['miny'], real_signs[i]['maxx'], real_signs[i]['maxy']]
+                rec2 = [found_signs[j]['x'], found_signs[j]['y'], found_signs[j]['x'] + found_signs[j]['w'],
+                        found_signs[j]['y'] + found_signs[j]['h']]
+                for k in range(len(scores)):
+                    score = get_jaccard_score(rec1, rec2)
+                    if score > scores[k]:
+                        successful_pairs[k] += [(i, j)]
+
+        for k in range(len(scores)):
+            true_positive_count[k] += len(successful_pairs[k])
+            false_positive_count[k] += len(found_signs) - len(successful_pairs[k])
+            false_negative_count[k] += len(real_signs) - len(successful_pairs[k])
+
+        if counter % 10 == 0:
+            print("Evaluated " + str(counter) + ' images')
+        counter += 1
+
+
+    return_dic = dict()
+    for k in range(len(scores)):
+
+        precision = (true_positive_count[k] / (true_positive_count[k] + false_positive_count[k])) \
+            if (true_positive_count[k] + false_positive_count[k] > 0) else 0.0
+        recall = (true_positive_count[k] / (true_positive_count[k] + false_negative_count[k])) \
+            if (true_positive_count[k] + false_negative_count[k] > 0) else 0.0
+        return_dic[scores[k]] = {"precision": precision, "recall": recall}
+    return return_dic
+
+
+def eval_accuracy():
+    # Index meaning:
+    # 0: all
+    # 1: nn
+    # 2: template match (guided by NN)
+    # 3: sift           (guided by NN)
+    # 4: template match
+    # 5: sift
+    successes_count = [0, 0, 0, 0, 0, 0]
+    failures_count = [0, 0, 0, 0, 0, 0]
+
+    my_path = os.path.abspath(os.path.dirname(__file__))
+    f = open(os.path.join(my_path, 'test_suite.json'))
+
+    data = json.load(f)
+
+    counter = 1
+    for image_data in data['images']:
+
+        im_id = image_data['id']
+
+        my_path = os.path.abspath(os.path.dirname(__file__))
+        im_path = os.path.join(my_path, './input/' + str(im_id) + '.jpg')
+
+        image = cv2.imread(im_path)
+
+        for sign in image_data['signs']:
+            x_bot = int(sign['minx'])
+            x_far = int(sign['maxx'])
+            y_bot = int(sign['miny'])
+            y_far = int(sign['maxy'])
+            sign_from_image = image[y_bot:y_far, x_bot:x_far]
+            top_choice, test_results = match(sign_from_image, ['nn', 'tm', 'sift'])
+            test_results += [template_match(sign_from_image)]
+            test_results += [sift_match(sign_from_image)]
+            print(test_results)
+            print(top_choice.mode)
+            actual_sign = sign['sign_name']
+            if top_choice.mode == actual_sign:
+                successes_count[0] += 1
+            else:
+                failures_count[0] += 1
+
+            for i in range(5):
+                if test_results[i] == actual_sign:
+                    successes_count[i+1] += 1
+                else:
+                    failures_count[i+1] += 1
+
+        if counter % 10 == 0:
+            print("Evaluated " + str(counter) + ' images')
+        counter += 1
+
+    accuracy_overall = [0, 0, 0, 0, 0, 0]
+    for i in range(6):
+        accuracy_overall[i] = successes_count[i] /(successes_count[i] + failures_count[i])
+
+    return accuracy_overall
+
+def main():
+    torch.set_warn_always(False)
+
+    warnings.filterwarnings("ignore", category=UserWarning)
+
+    print("Beginning Detection Evaluation")
+    #scores = [0.95, 0.90, 0.8, 0.6]
+    #detec_result = eval_jaccard(scores)
+    #for key in detec_result.keys():
+    #    print("Jaccard Threshold of " + str(key) + ": Precision = " + str(detec_result[key]['precision']) +
+    #          ', Recall ' + str(detec_result[key]['recall']))
+    print('\n\n')
+
+    print("Beginning Accuracy Evaluation")
+    accuracy_result = eval_accuracy()
+    print("Overall Accuracy: " + str(accuracy_result[0]))
+    print("Neural Network Accuracy: " + str(accuracy_result[1]))
+    print("Template Matching Accuracy(guided by NN): " + str(accuracy_result[2]))
+    print("SIFT Accuracy(guided by NN): " + str(accuracy_result[3]))
+    print("Template Matching Accuracy: " + str(accuracy_result[4]))
+    print("SIFT Accuracy: " + str(accuracy_result[5]))
+
+    print('\n\n')
+
+    print("Beginning Overall Evaluation")
+    true_match_final, false_positive_final, false_negative_final, successes_final, failures_final = full_eval()
     print_stats(true_match_final, false_positive_final, false_negative_final, successes_final, failures_final,
                 print_val=True)
+
+
+if __name__ == '__main__':
+    main()

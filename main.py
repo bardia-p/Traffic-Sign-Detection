@@ -14,7 +14,7 @@ INPUT_DIR = "inputs/"
 OUTPUT_DIR = "results/"
 
 
-def process_image(input_file, output_file="", download=True, methods = ["nn", "tm", "sift"]):
+def process_image(input_file, output_file="", download=True, methods=["nn", "tm", "sift"]):
     '''
     Processes the input image to find the sign.
 
@@ -34,23 +34,7 @@ def process_image(input_file, output_file="", download=True, methods = ["nn", "t
     results = dict()
 
     for sign in signs:
-        test_results = []
-        guesses = []
-
-        gray_sign = cv2.cvtColor(sign[0], cv2.COLOR_BGR2GRAY)
-
-        if "nn" in methods:
-            res, guesses = nn_match(sign[0])
-            test_results.append(res)
-
-        if "tm" in methods:
-            test_results.append(template_match(gray_sign, guesses))
-
-        if "sift" in methods:
-            test_results.append(sift_match(gray_sign, guesses))
-
-        # test_resultsprint()
-        top_choice = mode(test_results)
+        top_choice, _ = match(sign[0], methods)
 
         if top_choice.count != 0:
             sign_details = dict()
@@ -81,10 +65,30 @@ def process_image(input_file, output_file="", download=True, methods = ["nn", "t
         with open(output_file, 'w', encoding='utf-8') as f:
             json.dump(results, f, ensure_ascii=False, indent=4)
 
-        print(results)
+        # print(results)
     else:
         output_image = ""
     return output_image, results
+
+
+def match(sign, methods):
+    test_results = []
+    guesses = []
+
+
+    if "nn" in methods:
+        res, guesses = nn_match(sign)
+        test_results.append(res)
+
+    if "tm" in methods:
+        test_results.append(template_match(sign, guesses))
+
+    if "sift" in methods:
+        test_results.append(sift_match(sign, guesses))
+
+    top_choice = mode(test_results)
+
+    return top_choice, test_results
 
 
 def nn_match(sign):
@@ -98,10 +102,11 @@ def nn_match(sign):
     top_recogs = Recog().recog_image(sign)
     if len(top_recogs) > 0:
         return top_recogs[0][1], top_recogs
-    
+
     return -1, []
 
-def template_match(sign, guesses = []):
+
+def template_match(sign, guesses=[]):
     '''
     Uses the template matching to perform a detection on the sign.
 
@@ -109,13 +114,16 @@ def template_match(sign, guesses = []):
 
     @returns the top detection.
     '''
+    sign = cv2.cvtColor(sign, cv2.COLOR_BGR2GRAY)
+
     top_recogs = TemplateMatcher().template_match(sign, guesses)
     if len(top_recogs) > 0:
         return top_recogs[0][1]
-    
+
     return -1
 
-def sift_match(sign, guesses = []):
+
+def sift_match(sign, guesses=[]):
     '''
     Uses the sift matching to perform a detection on the sign.
 
@@ -123,11 +131,14 @@ def sift_match(sign, guesses = []):
 
     @returns the top detection.
     '''
+    sign = cv2.cvtColor(sign, cv2.COLOR_BGR2GRAY)
+
     top_recogs = TemplateMatcher().sift_match(sign, guesses)
     if len(top_recogs) > 0:
         return top_recogs[0][1]
-    
+
     return -1
+
 
 if __name__ == '__main__':
     process_image(INPUT_DIR + "test.jpg", "result")
