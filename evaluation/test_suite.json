@@ -30,6 +30,715 @@
           "sign_name": 4
         }
       ]
+    },
+    {
+      "id": "0Kow-jbDmb7aZ7pn--1rtw",
+      "signs": [
+        {
+          "minx": 3284,
+          "miny": 899,
+          "maxx": 3404,
+          "maxy": 1045,
+          "sign_name":17
+        }
+      ]
+    },
+    {
+      "id": "0mnemFtW4ficVtMBN6Emkw",
+      "signs": [
+        {
+          "minx": 2045,
+          "miny": 1456,
+          "maxx": 2214,
+          "maxy": 1519,
+          "sign_name":21
+        }
+      ]
+    },
+    {
+      "id": "0MRChTj1DH2a9bECpqlpaQ",
+      "signs": [
+        {
+          "minx": 1242,
+          "miny": 1671,
+          "maxx": 1364,
+          "maxy": 1794,
+          "sign_name": 17
+        },
+        {
+          "minx": 2298,
+          "miny": 1674,
+          "maxx": 2411,
+          "maxy": 1786,
+          "sign_name": 17
+        }
+      ]
+    },
+    {
+      "id": "0ObAdOn1Fc-srfMpxHBsiw",
+      "signs": [
+        {
+          "minx": 989,
+          "miny": 1232,
+          "maxx": 1149,
+          "maxy": 1388,
+          "sign_name": 38
+        },
+        {
+          "minx": 2120,
+          "miny": 1152,
+          "maxx": 2203,
+          "maxy": 1234,
+          "sign_name": 12
+        }
+      ]
+    },
+    {
+      "id": "0pPgh-biWoPK2SMapwMybw",
+      "signs": [
+        {
+          "minx": 1969,
+          "miny": 1744,
+          "maxx": 1996,
+          "maxy": 1771,
+          "sign_name": 38
+        },
+        {
+          "minx": 2327,
+          "miny": 1572,
+          "maxx": 2421,
+          "maxy": 1666,
+          "sign_name": 12
+        }
+      ]
+    },
+    {
+      "id": "0qnCW71WM5Kb2Wbt9SX_Iw",
+      "signs": [
+        {
+          "minx": 2656,
+          "miny": 1343,
+          "maxx": 2841,
+          "maxy": 1518,
+          "sign_name":13
+        }
+      ]
+    },
+    {
+      "id": "0t8-A0vYJy0cqrYV7M3hUw",
+      "signs": [
+        {
+          "minx": 325,
+          "miny": 405,
+          "maxx": 370,
+          "maxy": 461,
+          "sign_name":7
+        }
+      ]
+    },
+    {
+      "id": "0Zp8AsqjBV6EVY1HtOIFaw",
+      "signs": [
+        {
+          "minx": 2121,
+          "miny": 1348,
+          "maxx": 2179,
+          "maxy": 1408,
+          "sign_name":3
+        }
+      ]
+    },
+    {
+      "id": "1cFDtcpp8ulFs18auE2Mfw",
+      "signs": [
+        {
+          "minx": 2878,
+          "miny": 1275,
+          "maxx": 3060,
+          "maxy": 1439,
+          "sign_name":11
+        }
+      ]
+    },
+    {
+      "id": "1EcEqa4yfuSmJ29nM0X5jg",
+      "signs": [
+        {
+          "minx": 31,
+          "miny": 863,
+          "maxx": 232,
+          "maxy": 1088,
+          "sign_name":13
+        }
+      ]
+    },
+    {
+      "id": "1hwujjYTQ-yLcgmQqYdOZA",
+      "signs": [
+        {
+          "minx": 3176,
+          "miny": 491,
+          "maxx": 3415,
+          "maxy": 732,
+          "sign_name":37
+        }
+      ]
+    },
+    {
+      "id": "1MvVPQMuVD9VDEHQBbDyrg",
+      "signs": [
+        {
+          "minx": 2854,
+          "miny": 1353,
+          "maxx": 2949,
+          "maxy": 1431,
+          "sign_name": 18
+        },
+        {
+          "minx": 373,
+          "miny": 1156,
+          "maxx": 593,
+          "maxy": 1360,
+          "sign_name": 35
+        },
+        {
+          "minx": 2353,
+          "miny": 1448,
+          "maxx": 2441,
+          "maxy": 1529,
+          "sign_name": 12
+        },
+        {
+          "minx": 2345,
+          "miny": 1348,
+          "maxx": 2441,
+          "maxy": 1441,
+          "sign_name": 35
+        }
+      ]
+    },
+    {
+      "id": "1oPe_fDSVNCA0sEHAJwUtg",
+      "signs": [
+        {
+          "minx": 3153,
+          "miny": 1545,
+          "maxx": 3432,
+          "maxy": 1808,
+          "sign_name":9
+        },
+        {
+          "minx": 3139,
+          "miny": 1167,
+          "maxx": 3486,
+          "maxy": 1527,
+          "sign_name":12
+        }
+      ]
+    },
+    {
+      "id": "1tBYiS0hdTQDeP6s-BdPIw",
+      "signs": [
+        {
+          "minx": 3086,
+          "miny": 1099,
+          "maxx": 3239,
+          "maxy": 1237,
+          "sign_name":12
+        }
+      ]
+    },
+    {
+      "id": "1XbNSk7onhSGqvWUNYOSNw",
+      "signs": [
+        {
+          "minx": 1086,
+          "miny": 1404,
+          "maxx": 1312,
+          "maxy": 1616,
+          "sign_name":40
+        }
+      ]
+    },
+    {
+      "id": "1xPGBhd6FSUzwgt44_zkXA",
+      "signs": [
+        {
+          "minx": 991,
+          "miny": 891,
+          "maxx": 1031,
+          "maxy": 923,
+          "sign_name":38
+        },
+        {
+          "minx": 608,
+          "miny": 781,
+          "maxx": 768,
+          "maxy": 919,
+          "sign_name":38
+        }
+      ]
+    },
+    {
+      "id": "1Y2Zh2nsi9pRtAYVIyrg1w",
+      "signs": [
+        {
+          "minx": 3689,
+          "miny": 511,
+          "maxx": 3905,
+          "maxy": 714,
+          "sign_name":36
+        },
+        {
+          "minx": 3668,
+          "miny": 193,
+          "maxx": 3930,
+          "maxy": 465,
+          "sign_name":12
+        },
+        {
+          "minx": 1139,
+          "miny": 983,
+          "maxx": 1204,
+          "maxy": 1058,
+          "sign_name":17
+        }
+      ]
+    },
+    {
+      "id": "-1ZXiNNunp0TA-puToNbeQ",
+      "signs": [
+        {
+          "minx": 276,
+          "miny": 987,
+          "maxx": 535,
+          "maxy": 1211,
+          "sign_name":13
+        },
+        {
+          "minx": 2825,
+          "miny": 988,
+          "maxx": 3020,
+          "maxy": 1178,
+          "sign_name":14
+        }
+      ]
+    },
+    {
+      "id": "2bGmzRwGvl7lDioQ9oM61Q",
+      "signs": [
+        {
+          "minx": 1264,
+          "miny": 1691,
+          "maxx": 1421,
+          "maxy": 1850,
+          "sign_name":2
+        }
+      ]
+    },
+    {
+      "id": "2CHUkvrSbONiKgfZl0fylQ",
+      "signs": [
+        {
+          "minx": 3148,
+          "miny": 1649,
+          "maxx": 3467,
+          "maxy": 1941,
+          "sign_name":18
+        }
+      ]
+    },
+    {
+      "id": "2dqnEDNAnfpYrYrjbuHBog",
+      "signs": [
+        {
+          "minx": 2789,
+          "miny": 762,
+          "maxx": 3096,
+          "maxy": 1036,
+          "sign_name":12
+        }
+      ]
+    },
+    {
+      "id": "2hwb1ygycrtSuUowbNwHgQ",
+      "signs": [
+        {
+          "minx": 398,
+          "miny": 528,
+          "maxx": 480,
+          "maxy": 604,
+          "sign_name":3
+        }
+      ]
+    },
+    {
+      "id": "2jC1Sc0DGAPGo3OPnODCkw",
+      "signs": [
+        {
+          "minx": 1141,
+          "miny": 1901,
+          "maxx": 1261,
+          "maxy": 2051,
+          "sign_name":7
+        },
+        {
+          "minx": 3686,
+          "miny": 1936,
+          "maxx": 3817,
+          "maxy": 2090,
+          "sign_name":7
+        }
+      ]
+    },
+    {
+      "id": "2l4o923wngPPPeByS28GTA",
+      "signs": [
+        {
+          "minx": 659,
+          "miny": 1195,
+          "maxx": 734,
+          "maxy": 1262,
+          "sign_name":13
+        }
+      ]
+    },
+    {
+      "id": "2nK_i1wHGjie-ZnI0GrktQ",
+      "signs": [
+        {
+          "minx": 1944,
+          "miny": 803,
+          "maxx": 2097,
+          "maxy": 929,
+          "sign_name": 11
+        }
+      ]
+    },
+    {
+      "id": "2nS6W8Zs5YZpTqsP2c73YA",
+      "signs": [
+        {
+          "minx": 1119,
+          "miny": 1162,
+          "maxx": 1275,
+          "maxy": 1312,
+          "sign_name": 13
+        }
+      ]
+    },
+    {
+      "id": "2TfH_WuVmmEEnIvDEpTsgA",
+      "signs": [
+        {
+          "minx": 3436,
+          "miny": 1572,
+          "maxx": 3592,
+          "maxy": 1721,
+          "sign_name": 38
+        }
+      ]
+    },
+    {
+      "id": "03mKqdJT02HQU1LVQiAbLQ",
+      "signs": [
+        {
+          "minx": 1085,
+          "miny": 2087,
+          "maxx": 1150,
+          "maxy": 2151,
+          "sign_name": 3
+        }
+      ]
+    },
+    {
+      "id": "3BuCMnkKO0eyOHMY5-KwfA",
+      "signs": [
+        {
+          "minx": 3634,
+          "miny": 1654,
+          "maxx": 3917,
+          "maxy": 1878,
+          "sign_name": 18
+        }
+      ]
+    },
+    {
+      "id": "3CkNSMrrM7QufoJlpMVx2Q",
+      "signs": [
+        {
+          "minx": 2144,
+          "miny": 1000,
+          "maxx": 2223,
+          "maxy": 1084,
+          "sign_name": 9
+        },
+        {
+          "minx": 2134,
+          "miny": 916,
+          "maxx": 2223,
+          "maxy": 997,
+          "sign_name": 21
+        }
+      ]
+    },
+    {
+      "id": "3i8QiapbMiXKbgLp9hagcA",
+      "signs": [
+        {
+          "minx": 1064,
+          "miny": 1148,
+          "maxx": 1149,
+          "maxy": 1247,
+          "sign_name": 17
+        }
+      ]
+    },
+    {
+      "id": "3IgDxpZltEd-WKPPZgmspA",
+      "signs": [
+        {
+          "minx": 1294,
+          "miny": 531,
+          "maxx": 1341,
+          "maxy": 580,
+          "sign_name": 14
+        }
+      ]
+    },
+    {
+      "id": "3mjkvrXAPyDUMyhXPNNfrg",
+      "signs": [
+        {
+          "minx": 2526,
+          "miny": 1414,
+          "maxx": 2805,
+          "maxy": 1650,
+          "sign_name": 30
+        }
+      ]
+    },
+    {
+      "id": "3mOVYDe-k3wIm6wa9asqYg",
+      "signs": [
+        {
+          "minx": 690,
+          "miny": 1460,
+          "maxx": 1042,
+          "maxy": 1798,
+          "sign_name": 38
+        },
+        {
+          "minx": 904,
+          "miny": 1147,
+          "maxx": 1299,
+          "maxy": 1503,
+          "sign_name": 13
+        },
+        {
+          "minx": 2007,
+          "miny": 1566,
+          "maxx": 2124,
+          "maxy": 1691,
+          "sign_name": 40
+        }
+      ]
+    },
+    {
+      "id": "3pmd-_qTHyCf1oxrPmFdKw",
+      "signs": [
+        {
+          "minx": 1820,
+          "miny": 1383,
+          "maxx": 1887,
+          "maxy": 1332,
+          "sign_name": 13
+        }
+      ]
+    },
+    {
+      "id": "3pOOJ1DOTcNvxVBC_8djLA",
+      "signs": [
+        {
+          "minx": 978,
+          "miny": 1809,
+          "maxx": 1145,
+          "maxy": 1986,
+          "sign_name": 35
+        }
+      ]
+    },
+    {
+      "id": "3qJ43cksHK6XENewEHhczA",
+      "signs": [
+        {
+          "minx": 646,
+          "miny": 194,
+          "maxx": 677,
+          "maxy": 233,
+          "sign_name": 35
+        }
+      ]
+    },
+    {
+      "id": "3rfSCRwKJv4d5PRouh3ULQ",
+      "signs": [
+        {
+          "minx": 2675,
+          "miny": 1900,
+          "maxx": 2811,
+          "maxy": 2037,
+          "sign_name": 3
+        }
+      ]
+    },
+    {
+      "id": "3s0kNqtig8pbJ0G98E2mVw",
+      "signs": [
+        {
+          "minx": 1385,
+          "miny": 1854,
+          "maxx": 1468,
+          "maxy": 1944,
+          "sign_name": 2
+        }
+      ]
+    },
+    {
+      "id": "3SoOW8069fuTNpGXFX6dpA",
+      "signs": [
+        {
+          "minx": 1974,
+          "miny": 1337,
+          "maxx": 2148,
+          "maxy": 1505,
+          "sign_name": 38
+        },
+        {
+          "minx": 3225,
+          "miny": 852,
+          "maxx": 3698,
+          "maxy": 1233,
+          "sign_name": 13
+        },
+        {
+          "minx": 2860,
+          "miny": 1423,
+          "maxx": 2945,
+          "maxy": 1506,
+          "sign_name": 40
+        }
+      ]
+    },
+    {
+      "id": "3V_DLkOhrq7J-4GrcAJ8dQ",
+      "signs": [
+        {
+          "minx": 3073,
+          "miny": 1474,
+          "maxx": 3152,
+          "maxy": 1555,
+          "sign_name": 13
+        },
+        {
+          "minx": 3101,
+          "miny": 993,
+          "maxx": 3660,
+          "maxy": 1442,
+          "sign_name": 13
+        }
+      ]
+    },
+    {
+      "id": "4aOdNN_SIXG4JbPcXTemfQ",
+      "signs": [
+        {
+          "minx": 2562,
+          "miny": 734,
+          "maxx": 2920,
+          "maxy": 1029,
+          "sign_name": 16
+        }
+      ]
+    },
+    {
+      "id": "4cN8lJuSMw5yeNVRoW-jUA",
+      "signs": [
+        {
+          "minx": 1737,
+          "miny": 995,
+          "maxx": 1857,
+          "maxy": 1106,
+          "sign_name": 31
+        },
+        {
+          "minx": 1310,
+          "miny": 1084,
+          "maxx": 1365,
+          "maxy": 1134,
+          "sign_name": 18
+        }
+      ]
+    },
+    {
+      "id": "4dPxM_th-zH7tBF5C6kB-Q",
+      "signs": [
+        {
+          "minx": 1230,
+          "miny": 415,
+          "maxx": 1498,
+          "maxy": 659,
+          "sign_name": 13
+        }
+      ]
+    },
+    {
+      "id": "4GKI3v6ougedJ4tiaJwm1w",
+      "signs": [
+        {
+          "minx": 1113,
+          "miny": 1008,
+          "maxx": 1177,
+          "maxy": 1076,
+          "sign_name": 1
+        }
+      ]
+    },
+    {
+      "id": "4hDif3t5DPjN3Fokhlb88Q",
+      "signs": [
+        {
+          "minx": 3238,
+          "miny": 507,
+          "maxx": 3476,
+          "maxy": 720,
+          "sign_name": 11
+        }
+      ]
+    },
+    {
+      "id": "4h-D4r13ViNWvdqZFFFyhw",
+      "signs": [
+        {
+          "minx": 704,
+          "miny": 1512,
+          "maxx": 747,
+          "maxy": 1573,
+          "sign_name": 14
+        }
+      ]
+    },
+    {
+      "id": "4IQrateTv9kPXVlPJtaewQ",
+      "signs": [
+        {
+          "minx": 2006,
+          "miny": 1114,
+          "maxx": 2136,
+          "maxy": 1244,
+          "sign_name": 3
+        }
+      ]
     }
   ]
 }

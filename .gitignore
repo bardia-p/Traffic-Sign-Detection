@@ -4,3 +4,4 @@
 /neural_network/input/german_traffic_sign
 __pycache__
 results/
+/evaluation/results

@@ -6,11 +6,24 @@ from sklearn.metrics import jaccard_score
 from main import process_image
 from sign_translator.sign_translator import SignTranslator
 
-JACCARD_THRESHOLD = 0.9
+JACCARD_THRESHOLD = 0.8
 
 
 # Used to evaluate the threshold of tollerance for rectangle comparisons
-def get_jaccard_score(rec1, rec2, shape):
+def get_jaccard_score(rec1, rec2):
+    min_x = min(rec1[0], rec2[0])
+    min_y = min(rec1[1], rec2[1])
+    rec1[0] = rec1[0] - min_x
+    rec1[2] = rec1[2] - min_x
+    rec2[0] = rec2[0] - min_x
+    rec2[2] = rec2[2] - min_x
+
+    rec1[1] = rec1[1] - min_y
+    rec1[3] = rec1[3] - min_y
+    rec2[1] = rec2[1] - min_y
+    rec2[3] = rec2[3] - min_y
+
+    shape = (max(rec1[3], rec2[3]) + 1, max(rec1[2], rec2[2]) + 1)
     img = np.zeros(shape, np.uint8)  # use your image shape here or directly below
     img1 = cv2.rectangle(np.zeros(img.shape), (rec1[0], rec1[1]), (rec1[2], rec1[3]), (1, 1, 1), -1)
     img2 = cv2.rectangle(np.zeros(img.shape), (rec2[0], rec2[1]), (rec2[2], rec2[3]), (1, 1, 1), -1)
@@ -19,7 +32,7 @@ def get_jaccard_score(rec1, rec2, shape):
 
 def process(data):
     im_id = data['id']
-
+    print('Current image: ' + str(im_id))
     real_signs = []
     for sign in data['signs']:
         real_signs += [sign]
@@ -35,7 +48,7 @@ def process(data):
     im_path = os.path.join(my_path, './input/' + str(im_id) + '.jpg')
     image = cv2.imread(im_path)
 
-    _, detected_signs = process_image(im_path, download=False)
+    _, detected_signs = process_image(im_path, output_file=str(im_id))
 
     found_signs = []
     for sign in detected_signs.keys():
@@ -57,10 +70,10 @@ def process(data):
             rec1 = [real_signs[i]['minx'], real_signs[i]['miny'], real_signs[i]['maxx'], real_signs[i]['maxy']]
             rec2 = [found_signs[j]['x'], found_signs[j]['y'], found_signs[j]['x'] + found_signs[j]['w'],
                     found_signs[j]['y'] + found_signs[j]['h']]
-            score = get_jaccard_score(rec1, rec2, image.shape)
+            score = get_jaccard_score(rec1, rec2)
             if score > JACCARD_THRESHOLD:
                 successful_pairs += [(i, j)]
-                if translator.get_sign(found_signs[i]['sign_name']) == real_signs[i]['sign_name']:
+                if found_signs[j]['sign_name'] == translator.get_sign(real_signs[i]['sign_name']):
                     successes += 1
                 else:
                     failures += 1
@@ -87,37 +100,52 @@ def run_eval():
     total_successes = 0
     total_failures = 0
     print(len(data['images']))
+    counter = 1
     for i in data['images']:
-        true_matches, false_positives, false_negatives, successes, failures = process(i)
-        total_true_matches += true_matches
+        found_true_matches, false_positives, false_negatives, found_successes, found_failures = process(i)
+        total_true_matches += found_true_matches
         total_false_positive += false_positives
         total_false_negative += false_negatives
-        total_successes += successes
-        total_failures += failures
+        total_successes += found_successes
+        total_failures += found_failures
 
-    calc_precision = (total_true_matches / (total_true_matches + total_false_positive)) \
-        if (total_true_matches + total_false_positive > 0) else 0.0
-    calc_recall = (total_true_matches / (total_true_matches + total_false_negative)) \
-        if (total_true_matches + total_false_negative > 0) else 0.0
+        if counter % 10 == 0:
+            precision_temp = (total_true_matches / (total_true_matches + total_false_positive)) \
+                if (total_true_matches + false_positive > 0) else 0.0
+            recall_temp = (total_true_matches / (total_true_matches + total_false_negative)) \
+                if (total_true_matches + total_false_negative > 0) else 0.0
 
-    calc_accuracy = (total_successes / (total_successes + total_failures)) \
-        if (total_successes + total_failures > 0) else 0.0
+            accuracy_temp = (total_successes / (total_successes + total_failures)) \
+                if (total_successes + total_failures > 0) else 0.0
+
+            print("True Positives:" + str(total_true_matches))
+            print("False Positives:" + str(total_false_positive))
+            print("False Negatives:" + str(total_false_negative))
+
+            print("Correct Recognition:" + str(total_successes))
+            print("Incorrect Recognition:" + str(total_failures))
+
+            print("Detection Precision: " + str(precision_temp))
+            print("Detection Recall: " + str(recall_temp))
+            print("Recognition Accuracy: " + str(accuracy_temp))
+
+        counter += 1
 
     return total_true_matches, total_false_positive, total_false_negative, total_successes, total_failures
 
 
 if __name__ == '__main__':
-    true_matches, false_positive, false_negative, successes, failures = run_eval()
+    true_match, false_positive, false_negative, successes, failures = run_eval()
 
-    precision = (true_matches / (true_matches + false_positive)) \
-        if (true_matches + false_positive > 0) else 0.0
-    recall = (true_matches / (true_matches + false_negative)) \
-        if (true_matches + false_negative > 0) else 0.0
+    precision = (true_match / (true_match + false_positive)) \
+        if (true_match + false_positive > 0) else 0.0
+    recall = (true_match / (true_match + false_negative)) \
+        if (true_match + false_negative > 0) else 0.0
 
     accuracy = (successes / (successes + failures)) \
         if (successes + failures > 0) else 0.0
 
-    print("True Positives:" + str(true_matches))
+    print("True Positives:" + str(true_match))
     print("False Positives:" + str(false_positive))
     print("False Negatives:" + str(false_negative))
 
