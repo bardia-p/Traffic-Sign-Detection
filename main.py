@@ -14,7 +14,7 @@ INPUT_DIR = "inputs/"
 OUTPUT_DIR = "results/"
 
 
-def process_image(input_file, output_file="", download=True):
+def process_image(input_file, output_file="", download=True, methods = ["nn", "tm", "sift"]):
     '''
     Processes the input image to find the sign.
 
@@ -35,21 +35,19 @@ def process_image(input_file, output_file="", download=True):
 
     for sign in signs:
         test_results = []
+        guesses = []
+
         gray_sign = cv2.cvtColor(sign[0], cv2.COLOR_BGR2GRAY)
 
-        top_recogs = Recog().recog_image(sign[0])
-        if len(top_recogs) > 0:
-            test_results.append(top_recogs[0][1])
+        if "nn" in methods:
+            res, guesses = nn_match(sign[0])
+            test_results.append(res)
 
-        tms = TemplateMatcher().template_match(gray_sign, top_recogs)
+        if "tm" in methods:
+            test_results.append(template_match(gray_sign, guesses))
 
-        if len(tms) > 0:
-            test_results.append(tms[0][1])
-
-        sifts = TemplateMatcher().sift_match(gray_sign, top_recogs)
-
-        if len(sifts) > 0:
-            test_results.append(sifts[0][1])
+        if "sift" in methods:
+            test_results.append(sift_match(gray_sign, guesses))
 
         # test_resultsprint()
         top_choice = mode(test_results)
@@ -88,6 +86,48 @@ def process_image(input_file, output_file="", download=True):
         output_image = ""
     return output_image, results
 
+
+def nn_match(sign):
+    '''
+    Uses the neual network to perform a detection on the sign.
+
+    @param sign: the sign to analyze.
+
+    @returns the top detection.
+    '''
+    top_recogs = Recog().recog_image(sign)
+    if len(top_recogs) > 0:
+        return top_recogs[0][1], top_recogs
+    
+    return -1, []
+
+def template_match(sign, guesses = []):
+    '''
+    Uses the template matching to perform a detection on the sign.
+
+    @param sign: the sign to analyze.
+
+    @returns the top detection.
+    '''
+    top_recogs = TemplateMatcher().template_match(sign, guesses)
+    if len(top_recogs) > 0:
+        return top_recogs[0][1]
+    
+    return -1
+
+def sift_match(sign, guesses = []):
+    '''
+    Uses the sift matching to perform a detection on the sign.
+
+    @param sign: the sign to analyze.
+
+    @returns the top detection.
+    '''
+    top_recogs = TemplateMatcher().sift_match(sign, guesses)
+    if len(top_recogs) > 0:
+        return top_recogs[0][1]
+    
+    return -1
 
 if __name__ == '__main__':
     process_image(INPUT_DIR + "test.jpg", "result")
