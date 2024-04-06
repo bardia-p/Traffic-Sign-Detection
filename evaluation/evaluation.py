@@ -6,7 +6,7 @@ from sklearn.metrics import jaccard_score
 from main import process_image
 from sign_translator.sign_translator import SignTranslator
 
-JACCARD_THRESHOLD = 0.8
+LOGGER_ENABLED = True
 
 
 # Used to evaluate the threshold of tollerance for rectangle comparisons
@@ -35,26 +35,22 @@ def get_jaccard_score(rec1, rec2):
     return jaccard_score(img1.ravel(), img2.ravel())
 
 
-def process(data):
+def process(data, jaccard_threshold):
     im_id = data['id']
     print('Current image: ' + str(im_id))
+
+    # Remap true signs to a common datatype
     real_signs = []
     for sign in data['signs']:
         real_signs += [sign]
 
-        # new_dict['minx'] = sign['minx']
-        # new_dict['miny'] = sign['miny']
-        # new_dict['maxx'] = sign['maxx']
-        # new_dict['maxy'] = sign['maxy']
-        # new_dict['sign_name'] = sign['sign_name']
-
     # Retrieve the image and run it through the process
     my_path = os.path.abspath(os.path.dirname(__file__))
     im_path = os.path.join(my_path, './input/' + str(im_id) + '.jpg')
-    image = cv2.imread(im_path)
 
     _, detected_signs = process_image(im_path, output_file=str(im_id))
 
+    # Remap detected signs to a common datatype
     found_signs = []
     for sign in detected_signs.keys():
         new_dict = dict()
@@ -76,7 +72,7 @@ def process(data):
             rec2 = [found_signs[j]['x'], found_signs[j]['y'], found_signs[j]['x'] + found_signs[j]['w'],
                     found_signs[j]['y'] + found_signs[j]['h']]
             score = get_jaccard_score(rec1, rec2)
-            if score > JACCARD_THRESHOLD:
+            if score > jaccard_threshold:
                 successful_pairs += [(i, j)]
                 if found_signs[j]['sign_name'] == translator.get_sign(real_signs[i]['sign_name']):
                     successes += 1
@@ -90,12 +86,34 @@ def process(data):
     return true_matches, false_positives, false_negatives, successes, failures
 
 
-def run_eval():
+def print_stats(true_matches, false_positives, false_negatives, successes, failures, print_val=False):
+    if not (print_val or LOGGER_ENABLED):
+        return
+
+    precision = (true_matches / (true_matches + false_positives)) \
+        if (true_matches + false_positives > 0) else 0.0
+    recall = (true_matches / (true_matches + false_negatives)) \
+        if (true_matches + false_negatives > 0) else 0.0
+
+    accuracy = (successes / (successes + failures)) \
+        if (successes + failures > 0) else 0.0
+
+    print("True Positives:" + str(true_matches))
+    print("False Positives:" + str(false_positives))
+    print("False Negatives:" + str(false_negatives))
+
+    print("Correct Recognition:" + str(successes))
+    print("Incorrect Recognition:" + str(failures))
+
+    print("Detection Precision: " + str(precision))
+    print("Detection Recall: " + str(recall))
+    print("Recognition Accuracy: " + str(accuracy))
+
+
+def run_eval(jaccard_threshold=0.8):
     my_path = os.path.abspath(os.path.dirname(__file__))
     f = open(os.path.join(my_path, 'test_suite.json'))
 
-    # returns JSON object as
-    # a dictionary
     data = json.load(f)
 
     # Iterate through each image
@@ -107,7 +125,8 @@ def run_eval():
     print(len(data['images']))
     counter = 1
     for i in data['images']:
-        found_true_matches, false_positives, false_negatives, found_successes, found_failures = process(i)
+        found_true_matches, false_positives, false_negatives, found_successes, found_failures = (
+            process(i, jaccard_threshold))
         total_true_matches += found_true_matches
         total_false_positive += false_positives
         total_false_negative += false_negatives
@@ -115,24 +134,7 @@ def run_eval():
         total_failures += found_failures
 
         if counter % 10 == 0:
-            precision_temp = (total_true_matches / (total_true_matches + total_false_positive)) \
-                if (total_true_matches + false_positive > 0) else 0.0
-            recall_temp = (total_true_matches / (total_true_matches + total_false_negative)) \
-                if (total_true_matches + total_false_negative > 0) else 0.0
-
-            accuracy_temp = (total_successes / (total_successes + total_failures)) \
-                if (total_successes + total_failures > 0) else 0.0
-
-            print("True Positives:" + str(total_true_matches))
-            print("False Positives:" + str(total_false_positive))
-            print("False Negatives:" + str(total_false_negative))
-
-            print("Correct Recognition:" + str(total_successes))
-            print("Incorrect Recognition:" + str(total_failures))
-
-            print("Detection Precision: " + str(precision_temp))
-            print("Detection Recall: " + str(recall_temp))
-            print("Recognition Accuracy: " + str(accuracy_temp))
+            print_stats(total_true_matches, total_false_positive, total_false_negative, total_successes, total_failures)
 
         counter += 1
 
@@ -140,23 +142,6 @@ def run_eval():
 
 
 if __name__ == '__main__':
-    true_match, false_positive, false_negative, successes, failures = run_eval()
-
-    precision = (true_match / (true_match + false_positive)) \
-        if (true_match + false_positive > 0) else 0.0
-    recall = (true_match / (true_match + false_negative)) \
-        if (true_match + false_negative > 0) else 0.0
-
-    accuracy = (successes / (successes + failures)) \
-        if (successes + failures > 0) else 0.0
-
-    print("True Positives:" + str(true_match))
-    print("False Positives:" + str(false_positive))
-    print("False Negatives:" + str(false_negative))
-
-    print("Correct Recognition:" + str(successes))
-    print("Incorrect Recognition:" + str(failures))
-
-    print("Detection Precision: " + str(precision))
-    print("Detection Recall: " + str(recall))
-    print("Recognition Accuracy: " + str(accuracy))
+    true_match_final, false_positive_final, false_negative_final, successes_final, failures_final = run_eval()
+    print_stats(true_match_final, false_positive_final, false_negative_final, successes_final, failures_final,
+                print_val=True)
