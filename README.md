@@ -17,9 +17,6 @@ pip install -r requirements.txt
 ```
 
 
-3. Download the German Traffic Sign Recognition Benchmark (GTSRB) dataset:
-   - Visit the official GTSRB website at [https://benchmark.ini.rub.de/gtsrb_dataset.html](https://benchmark.ini.rub.de/gtsrb_dataset.html) and download the dataset.
-   - Extract the dataset and place it in the `input/german_traffic_sign` directory within the project folder. Ensure the directory structure is correct so that the scripts can correctly access the dataset files.
 
 ## Usage
 
@@ -65,3 +62,9 @@ python -m evaluation.evaluation
 
 
 This will evaluate the models using the provided test suite and print the results to the console.
+
+## Contributors
+
+- Bardia Parmoun
+- Liam Gaudet
+- Siddharth Natamai
