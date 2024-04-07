@@ -123,7 +123,6 @@ def full_eval(jaccard_threshold=0.8):
     total_false_negative = 0
     total_successes = 0
     total_failures = 0
-    print(len(data['images']))
     counter = 1
     for i in data['images']:
         found_true_matches, false_positives, false_negatives, found_successes, found_failures = (
@@ -256,8 +255,6 @@ def eval_accuracy():
             top_choice, test_results = match(sign_from_image, ['nn', 'tm', 'sift'])
             test_results += [template_match(sign_from_image)]
             test_results += [sift_match(sign_from_image)]
-            print(test_results)
-            print(top_choice.mode)
             actual_sign = sign['sign_name']
             if top_choice.mode == actual_sign:
                 successes_count[0] += 1
@@ -286,12 +283,12 @@ def main():
     warnings.filterwarnings("ignore", category=UserWarning)
 
     print("Beginning Detection Evaluation")
-    #scores = [0.95, 0.90, 0.8, 0.6]
-    #detec_result = eval_jaccard(scores)
-    #for key in detec_result.keys():
-    #    print("Jaccard Threshold of " + str(key) + ": Precision = " + str(detec_result[key]['precision']) +
-    #          ', Recall ' + str(detec_result[key]['recall']))
-    print('\n\n')
+    scores = [0.95, 0.90, 0.8, 0.6]
+    detec_result = eval_jaccard(scores)
+    for key in detec_result.keys():
+        print("Jaccard Threshold of " + str(key) + ": Precision = " + str(detec_result[key]['precision']) +
+              ', Recall ' + str(detec_result[key]['recall']))
+    print('')
 
     print("Beginning Accuracy Evaluation")
     accuracy_result = eval_accuracy()
@@ -302,7 +299,7 @@ def main():
     print("Template Matching Accuracy: " + str(accuracy_result[4]))
     print("SIFT Accuracy: " + str(accuracy_result[5]))
 
-    print('\n\n')
+    print('')
 
     print("Beginning Overall Evaluation")
     true_match_final, false_positive_final, false_negative_final, successes_final, failures_final = full_eval()
