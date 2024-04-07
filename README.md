@@ -2,8 +2,11 @@
 
 This project detects and recognizes traffic signs in images using computer vision and deep learning techniques. It combines various methods, including a neural network, template matching, and SIFT (Scale-Invariant Feature Transform) for sign recognition.
 
-<img src="images/demo.png" width=1800>
+<img src="demo/demo.png" width=1800>
 
+## Demo
+
+Make sure to checkout a demo of our project [here](https://github.com/bardia-p/Traffic-Sign-Detection/tree/main/demo/demo.mp4)!
 ## Requirements
 
 - Python 3.6 or higher
