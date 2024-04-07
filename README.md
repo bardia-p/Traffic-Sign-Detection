@@ -45,9 +45,7 @@ The GUI allows you to select an image, process it, and view the detected signs a
 Here is a quick overview of the components of the system:
 <img src="images/project_architecture.jpg" width=1800>
 
-For further understanding the design of the project, make sure to checkout the [documents](https://github.com/bardia-p/Traffic-Sign-Detection/tree/main/documents) folder.
-
-## Project Structure
+### Project Structure
 
 - `main.py`: Main script for processing images. It includes functions for loading images, detecting traffic signs, and saving results.
 - `ui.py`: User interface script that provides a graphical interface for interacting with the project. Users can select an image, process it, and view the results.
@@ -58,6 +56,8 @@ For further understanding the design of the project, make sure to checkout the [
 - `evaluation/`: Contains evaluation scripts and test data for assessing the performance of the detection and recognition models. This includes metrics such as precision, recall, and accuracy, which help in understanding the effectiveness of the models in correctly identifying and classifying traffic signs.
 - `input/`: Directory for input images.
 - `results/`: Directory for saving processed images and results. This includes detected signs and their classifications.
+
+For further understanding the design of the project, make sure to checkout the [documents](https://github.com/bardia-p/Traffic-Sign-Detection/tree/main/documents) folder.
 
 ## Evaluation
 
