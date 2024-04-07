@@ -14,10 +14,15 @@ layout = [
     [sg.Multiline(default_text='Status/Logs will appear here', size=(60, 5), key='-STATUS-')]
 ]
 
-window = sg.Window('Sign Detection UI', layout)
+window = sg.Window('Sign Detection UI', layout, resizable=True, size=(800, 600))
 
 image_path = None
 processed_image_path = None
+
+def resize_image(image_path, max_size=(800, 450)):
+    image = Image.open(image_path)
+    image.thumbnail(max_size)
+    return image
 
 while True:
     event, values = window.read()
@@ -30,15 +35,15 @@ while True:
         while not os.path.exists(processed_image_path):
             time.sleep(0.1)  # Dynamic waiting for the processed image to be available
         window['-STATUS-'].update('Detection Complete')
-        pil_image_processed = Image.open(processed_image_path)
+        pil_image_processed = resize_image(processed_image_path)
         window['-IMAGE-'].update(data=ImageTk.PhotoImage(pil_image_processed))
     elif event == 'Input':
         if image_path:
-            pil_image = Image.open(os.path.abspath(image_path))
+            pil_image = resize_image(os.path.abspath(image_path))
             window['-IMAGE-'].update(data=ImageTk.PhotoImage(pil_image))
     elif event == 'Output':
         if processed_image_path:
-            pil_image_processed = Image.open(processed_image_path)
+            pil_image_processed = resize_image(processed_image_path)
             window['-IMAGE-'].update(data=ImageTk.PhotoImage(pil_image_processed))
 
 window.close()
