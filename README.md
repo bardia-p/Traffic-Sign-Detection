@@ -6,7 +6,7 @@ This project detects and recognizes traffic signs in images using computer visio
 
 ## Demo
 
-Make sure to checkout a demo of our project [here](https://github.com/bardia-p/Traffic-Sign-Detection/tree/main/demo/demo.mp4)!
+Make sure to checkout a demo of our project [here](demo/demo.mp4)!
 ## Requirements
 
 - Python 3.6 or higher
@@ -60,7 +60,7 @@ Here is a quick overview of the components of the system:
 - `input/`: Directory for input images.
 - `results/`: Directory for saving processed images and results. This includes detected signs and their classifications.
 
-For further understanding the design of the project, make sure to checkout the [documents](https://github.com/bardia-p/Traffic-Sign-Detection/tree/main/documents) folder.
+For further understanding the design of the project, make sure to checkout the [documents](documents/) folder.
 
 ## Evaluation
 
