@@ -115,7 +115,8 @@ def template_match(sign, guesses=[]):
 
     @returns the top detection.
     '''
-    sign = cv2.cvtColor(sign, cv2.COLOR_BGR2GRAY)
+    if sign.shape[2] == 3:  # Check if the image is not already grayscale
+        sign = cv2.cvtColor(sign, cv2.COLOR_BGR2GRAY)
 
     top_recogs = TemplateMatcher().template_match(sign, guesses)
     if len(top_recogs) > 0:
