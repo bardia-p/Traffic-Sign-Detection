@@ -2,6 +2,8 @@
 
 This project detects and recognizes traffic signs in images using computer vision and deep learning techniques. It combines various methods, including a neural network, template matching, and SIFT (Scale-Invariant Feature Transform) for sign recognition.
 
+<img src="images/demo.png" width=1800>
+
 ## Requirements
 
 - Python 3.6 or higher
@@ -39,7 +41,11 @@ python ui.py
 
 The GUI allows you to select an image, process it, and view the detected signs and their classifications.
 
-## Project Structure
+## Design
+Here is a quick overview of the components of the system:
+<img src="images/project_architecture.jpg" width=1800>
+
+### Project Structure
 
 - `main.py`: Main script for processing images. It includes functions for loading images, detecting traffic signs, and saving results.
 - `ui.py`: User interface script that provides a graphical interface for interacting with the project. Users can select an image, process it, and view the results.
@@ -48,8 +54,10 @@ The GUI allows you to select an image, process it, and view the detected signs a
 - `template_match/`: Includes the template matching module for sign recognition. This module compares detected signs against a database of known signs to recognize them.
 - `sign_translation/`: This module is responsible for mapping sign IDs to their corresponding names or descriptions.
 - `evaluation/`: Contains evaluation scripts and test data for assessing the performance of the detection and recognition models. This includes metrics such as precision, recall, and accuracy, which help in understanding the effectiveness of the models in correctly identifying and classifying traffic signs.
-- `input/`: Directory for input images and datasets. This is where users should place the GTSRB dataset after downloading it.
+- `input/`: Directory for input images.
 - `results/`: Directory for saving processed images and results. This includes detected signs and their classifications.
+
+For further understanding the design of the project, make sure to checkout the [documents](https://github.com/bardia-p/Traffic-Sign-Detection/tree/main/documents) folder.
 
 ## Evaluation
 
@@ -62,6 +70,7 @@ python -m evaluation.evaluation
 
 
 This will evaluate the models using the provided test suite and print the results to the console.
+
 
 ## Contributors
 
